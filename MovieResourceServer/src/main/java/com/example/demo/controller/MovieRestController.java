@@ -24,23 +24,43 @@ public class MovieRestController {
 	
 	@Autowired
     MovieService movieService;
-	
+
+	  /**
+        * This endpoint is responsible for displaying all the movies
+        * URI: /v1/movies
+        * HTTP method: GET
+    	 */
 	@GetMapping("/movies")
 	public ResponseEntity<List<Movie>> getAllMovies() {
 		return ResponseEntity.ok().body(movieService.findAllMovies());
 	}
-	
+
+	 /**
+        * This endpoint is responsible for inserting new movies
+        * URI: /v1/movies
+        * HTTP method: POST
+    	 */
 	@PostMapping("/movies")
 	public ResponseEntity<Movie> saveMovies(@RequestBody Movie newMovie,Authentication auth) {
 		return ResponseEntity.status(HttpStatus.CREATED).body((movieService.saveMovie(newMovie)));
 	}
-	
+
+	 /**
+        * This endpoint is responsible for displaying the movie respective to the id
+        * URI: /v1/movies/{id}
+        * HTTP method: GET
+    	 */
 	@GetMapping("/movies/{id}")
 	public ResponseEntity<Movie> getMovieById(@PathVariable("id") int movieId) {
 		return ResponseEntity.ok().body(movieService.findMovieById(movieId).get());
 		
 	}
-	
+
+	 /**
+        * This endpoint is responsible for deleting movie respective to the id
+        * URI: /v1/movies/{id}
+        * HTTP method: DELETE
+    	 */
 	@DeleteMapping("/movies/{id}")
 	public ResponseEntity<Object> deleteMovie(@PathVariable("id") int movieId) {
 		 movieService.deleteMovie(movieId);
