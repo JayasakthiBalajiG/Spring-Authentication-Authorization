@@ -36,7 +36,7 @@ public class MovieRestController {
 	}
 
 	 /**
-        * This endpoint is responsible for inserting new movies
+        * This endpoint is responsible for adding new movies
         * URI: /v1/movies
         * HTTP method: POST
     	 */
