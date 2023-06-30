@@ -32,21 +32,36 @@ public class UserRestController {
 	
 	@Autowired
 	UserService userService;
-	
+
+	 /**
+        * This endpoint is responsible for restricting the ADMIN to view
+        * URI: /v1/users
+        * HTTP method: GET
+    	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/users")
 	public List<User> getAllUsers() {
 		return userService.findAllUsers();
 		
 	}
-		
+
+	 /**
+        * This endpoint is responsible for adding the users
+        * URI: /v1/users
+        * HTTP method: POST
+    	 */
 	@PostMapping("/users")
 	public ResponseEntity<User> saveusers(@RequestBody User newUser,Authentication auth) {
 		System.out.println(newUser.getUserName()+"  "+auth.getName());
 		return ResponseEntity.status(HttpStatus.CREATED).body((userService.saveUser(newUser)));
 		
 	}
-	
+
+	 /**
+        * This endpoint is responsible for viewing the users respective to their userId
+        * URI: /v1/users/{userId}
+        * HTTP method: GET
+    	 */
 	@PreAuthorize("@userSecurity.hasUserId(authentication,#userId)")
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<User> getUserById(@PathVariable("userId") int userId, Authentication authentication) {
@@ -54,7 +69,13 @@ public class UserRestController {
 		return ResponseEntity.ok().body(userService.findUserById(userId).get());
 		
 	}
-	
+
+
+	 /**
+        * This endpoint is responsible for deleting the users respective to their id
+        * URI: /v1/users/{userId}
+        * HTTP method: DELETE
+    	 */
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<Object> deleteUser(@PathVariable("userId") int UserId) {
 		 userService.deleteUser(UserId);
